@@ -1,0 +1,9 @@
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - pip
+    - pip:
+      - setuptools
+      - cffi
+      - argon2-cffi
