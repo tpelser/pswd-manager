@@ -1,6 +1,6 @@
 import sqlite3
-from .models import CREATE_PASSWORD_DATA_TABLE, INSERT_INTO_PASSWORD_DATA_TABLE, FETCH_PASSWORD_DATA_BY_WEBSITE
-from utils.hashing import hash_password
+from .models import CREATE_PASSWORD_DATA_TABLE, INSERT_INTO_PASSWORD_DATA_TABLE, FETCH_PASSWORD_DATA_BY_WEBSITE, PasswordData
+from utils.encryption import encrypt_password
 
 def db_config():
     conn = sqlite3.connect("pwd_manager.db")
@@ -10,13 +10,13 @@ def db_config():
     conn.close()
 
 def add_password_data(website: str, email: str, username: str, password: str):
-    password_hash = hash_password(password)
+    encrypted_password = encrypt_password(password, master_password, salt)
+    password_data = PasswordData(website=website, email=email, username=username, password=encrypted_password)
     conn = sqlite3.connect("pwd_manager.db")
     cursor = conn.cursor()
-    cursor.execute(INSERT_INTO_PASSWORD_DATA_TABLE, (website, email, username, password_hash))
+    cursor.execute(INSERT_INTO_PASSWORD_DATA_TABLE, password_data._asdict())
     conn.commit()    
     conn.close()
-
 
 def get_password_data_by_website(website):
     conn = sqlite3.connect('pwd_manager.db')
@@ -28,3 +28,5 @@ def get_password_data_by_website(website):
         return PasswordData(*result)
     else:
         return None
+    
+

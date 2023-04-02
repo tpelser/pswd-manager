@@ -12,13 +12,16 @@ def prompt_password_generation_options():
 
     #prompt for allowing special characters
     allow_special_chars = input("Allow special characters? Press Enter for yes, or type 'no' to disallow: ").lower()
+    allow_special_chars = allow_special_chars != "no"
 
-def generate_password(length=12, include_numbers=True, include_special_chars=True):
+    return length, allow_numbers, allow_special_chars
+
+def generate_password(length=12, allow_numbers=True, allow_special_chars=True):
     # Define the character sets
     lowercase_chars = string.ascii_lowercase
     uppercase_chars = string.ascii_uppercase
-    numbers = string.digits if include_numbers else ""
-    special_chars = string.punctuation if include_special_chars else ""
+    numbers = string.digits if allow_numbers else ""
+    special_chars = string.punctuation if allow_special_chars else ""
 
     # combine the character sets
     password_characters = lowercase_chars + uppercase_chars + numbers + special_chars

@@ -1,8 +1,9 @@
 from database.db import db_config, add_password_data, get_password_data_by_website
 from utils.hashing import verify_password
 from utils.clipboard import copy_to_clipboard
-from utils.pwd_generator import generate_password
+from utils.pwd_generator import generate_password, prompt_password_generation_options
 from utils.master_key import setup_master_key, verify_master_password
+from utils.encryption import decrypt_password, get_salt, encrypt_password
 
 def main():
     # set up the database
@@ -30,26 +31,12 @@ def main():
             password = input("Enter the password (press Enter to generate a random password): ")
 
             if not password:
-                length = input("Enter the desired password length (press enter for Default 12 characters): ")
-                include_numbers = input("Allow numbers? Press Enter for Yes or type 'no' to disallow: ").upper()
-                include_special_chars = input("Allow special characters (e.g. !+*#, etc.)? Press Enter for Yes, or type 'no' to disallow: ").upper()
-                if not length:
-                    length = 12
-                else:
-                    length = int(length)
-
-                if include_numbers=="YES":
-                    include_numbers==True
-
-                if include_special_chars=="Yes"
-                    include_special_chars==True
-                else:
-                    include_special_chars==False
-
-                password = generate_password(length=length, include_numbers=include_numbers, include_special_chars=include_special_chars)
+                length, allow_numbers, allow_special_chars = prompt_password_generation_options()
+                password = generate_password(length=length, allow_numbers=allow_numbers, allow_special_chars=allow_special_chars)
                 print(f"Generated password: {password}")
 
-            add_password_data(website, email, username, password)
+            encrpyted_password = encrypt_password(password, master_password, get_salt())
+            add_password_data(website, email, username, encrpyted_password)
             print("Password data saved")
 
         #### Retrieve an entry ####
@@ -59,10 +46,11 @@ def main():
 
             if password_data:
                 if password_data.username:
+                    decrypted_password = decrypt_password(password_data.password, master_password, get_salt())
                     copy_to_clipboard(password_data.username)
                     print("Username copied to clipboard. Press Enter to copy the password.")
                     input()
-                copy_to_clipboard(password_data.password)
+                copy_to_clipboard(decrypted_password)
                 print("Password copied to clipboard.")
             else:
                 print("No password data found for the given website.")

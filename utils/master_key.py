@@ -15,7 +15,7 @@ def setup_master_key():
             f.write(password_hash.encode())
 
         # Generate and store the device secret
-        device_secret = generate_password(length=64, include_special_chars=False)
+        device_secret = generate_password(length=64, allow_numbers=True, allow_special_chars=False)
         with open(DEVICE_SECRET_FILE, "w") as f:
             f.write(device_secret)
 
