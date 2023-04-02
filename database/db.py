@@ -10,11 +10,9 @@ def db_config():
     conn.close()
 
 def add_password_data(website: str, email: str, username: str, password: str):
-    encrypted_password = encrypt_password(password, master_password, salt)
-    password_data = PasswordData(website=website, email=email, username=username, password=encrypted_password)
     conn = sqlite3.connect("pwd_manager.db")
     cursor = conn.cursor()
-    cursor.execute(INSERT_INTO_PASSWORD_DATA_TABLE, password_data._asdict())
+    cursor.execute(INSERT_INTO_PASSWORD_DATA_TABLE, (website, email, username, password))
     conn.commit()    
     conn.close()
 
