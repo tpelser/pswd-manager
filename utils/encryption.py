@@ -2,17 +2,7 @@ from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.backends import default_backend
-import os
 import base64
-from utils.master_key import DEVICE_SECRET_FILE
-
-def get_salt():
-    if os.path.exists(DEVICE_SECRET_FILE):
-        with open(DEVICE_SECRET_FILE, "rb") as f:
-            salt = f.read()
-    else:
-        raise FileNotFoundError("Device secret file not found.")
-    return salt
 
 def create_fernet_key(master_password, salt):
     backend = default_backend()

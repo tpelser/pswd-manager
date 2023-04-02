@@ -16,8 +16,8 @@ def setup_master_key():
 
         # Generate and store the device secret
         device_secret = generate_password(length=64, allow_numbers=True, allow_special_chars=False)
-        with open(DEVICE_SECRET_FILE, "w") as f:
-            f.write(device_secret)
+        with open(DEVICE_SECRET_FILE, "wb") as f:
+            f.write(device_secret.encode())
 
         # copy the master password to clipboard in case they forgot to write it down
         copy_to_clipboard(master_password)
@@ -26,7 +26,7 @@ def setup_master_key():
     return read_device_secret()
 
 def read_device_secret():
-    with open(DEVICE_SECRET_FILE, "r") as f:
+    with open(DEVICE_SECRET_FILE, "rb") as f:
         return f.read()
     
 def verify_master_password(master_password):

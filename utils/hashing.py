@@ -10,7 +10,7 @@ def hash_password(password: str) -> str:
     password_hash = ph.hash(password)
     return password_hash
 
-def verify_password(password: str, password_hash: str) -> bool:
+def verify_password(password: str, password_hash: str):
     """
     Verify whether the given password matches the provided Argon2 password hash
     """
