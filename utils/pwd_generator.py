@@ -1,7 +1,19 @@
 import secrets
 import string
 
-def generate_password(lenght=12, include_numbers=True, include_special_chars=True):
+def prompt_password_generation_options():
+    # prompt for pswd length
+    length = input("Enter the desired password length (press Enter for 12 characters) ")
+    length = int(length) if length else 12
+
+    #prompt for allowing numbers
+    allow_numbers = input("Allow numbers? Press Enter for yes, or type 'no' to disallow: ").lower()
+    allow_numbers = allow_numbers != "no"
+
+    #prompt for allowing special characters
+    allow_special_chars = input("Allow special characters? Press Enter for yes, or type 'no' to disallow: ").lower()
+
+def generate_password(length=12, include_numbers=True, include_special_chars=True):
     # Define the character sets
     lowercase_chars = string.ascii_lowercase
     uppercase_chars = string.ascii_uppercase

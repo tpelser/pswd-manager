@@ -7,3 +7,4 @@ dependencies:
       - setuptools
       - cffi
       - argon2-cffi
+      - pyperclip
