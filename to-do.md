@@ -1,5 +1,8 @@
 ## added functionality
-encrypt the master_password_hash.txt and device_secret.txt files
+encrypt the device_secret.txt file
+
+## add a CI pipeline
+https://docs.github.com/en/actions/creating-actions/creating-a-docker-container-action 
 
 ## GUI
 build the GUI
