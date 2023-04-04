@@ -2,22 +2,52 @@ import os
 from .hashing import hash_password, verify_password
 from .pwd_generator import generate_password
 from .clipboard import copy_to_clipboard
+import platform
+import ctypes
 
-MASTER_PASSWORD_FILE = "master_password_hash.txt"
-DEVICE_SECRET_FILE = "device_secret.txt"
+folder_path = "usr"
+
+def is_windows():
+    return platform.system().lower() == "windows"
+
+def set_read_only_unix(file_path):
+    os.chmod(file_path, 0o444)
+
+def set_read_only_windows(file_path):
+    FILE_ATTRIBUTE_READONLY = 0x01
+    ctypes.windll.kernel32.SetFileAttributesW(file_path, FILE_ATTRIBUTE_READONLY)
+
+def set_read_only(file_path):
+    if is_windows():
+        set_read_only_windows(file_path)
+    else:
+        set_read_only_unix(file_path)
+
+MASTER_PASSWORD_FILE = os.path.join(folder_path, "master_password_hash.txt")
+DEVICE_SECRET_FILE = os.path.join(folder_path,"device_secret.txt")
 
 def setup_master_key():
+    if not os.path.exists(folder_path):
+        if platform.system() == "Windows":
+            os.makedirs(folder_path, exist_ok=True)
+            FILE_ATTRIBUTE_HIDDEN = 0x02
+            ctypes.windll.kernel32.SetFileAttributesW(folder_path, FILE_ATTRIBUTE_HIDDEN)
+        else:
+            os.makedirs(folder_path, exist_ok=True)
+
     if not os.path.exists(MASTER_PASSWORD_FILE):
         master_password = input("Welcome to the PWD Manager! Enter a new master password: ")
         password_hash = hash_password(master_password)
 
         with open(MASTER_PASSWORD_FILE, "wb") as f:
             f.write(password_hash.encode())
+        set_read_only(MASTER_PASSWORD_FILE)
 
         # Generate and store the device secret
         device_secret = generate_password(length=64, allow_numbers=True, allow_special_chars=False)
         with open(DEVICE_SECRET_FILE, "wb") as f:
             f.write(device_secret.encode())
+        set_read_only(DEVICE_SECRET_FILE)
 
         # copy the master password to clipboard in case they forgot to write it down
         copy_to_clipboard(master_password)

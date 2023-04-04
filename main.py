@@ -5,8 +5,6 @@ from utils.master_key import setup_master_key, verify_master_password
 from utils.encryption import decrypt_password, encrypt_password
 
 def main():
-    # set up the database
-    db_config()
     # run initial setup
     salt = setup_master_key()
     verified_master_password = None
@@ -18,6 +16,8 @@ def main():
             break
         else:
             print("Incorrect master password. Please try again.")
+    # set up the database
+    db_config()
 
     while True:
         # Ask the user for their choice

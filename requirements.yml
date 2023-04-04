@@ -8,3 +8,4 @@ dependencies:
       - cffi
       - argon2-cffi
       - pyperclip
+      - tk
