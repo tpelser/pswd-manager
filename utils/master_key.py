@@ -35,23 +35,22 @@ def setup_master_key():
         else:
             os.makedirs(folder_path, exist_ok=True)
 
-    if not os.path.exists(MASTER_PASSWORD_FILE):
-        master_password = input("Welcome to the PWD Manager! Enter a new master password: ")
-        password_hash = hash_password(master_password)
+    master_password = input("Welcome to the PWD Manager! Enter a new master password: ")
+    password_hash = hash_password(master_password)
 
-        with open(MASTER_PASSWORD_FILE, "wb") as f:
-            f.write(password_hash.encode())
-        set_read_only(MASTER_PASSWORD_FILE)
+    with open(MASTER_PASSWORD_FILE, "wb") as f:
+        f.write(password_hash.encode())
+    set_read_only(MASTER_PASSWORD_FILE)
 
-        # Generate and store the device secret
-        device_secret = generate_password(length=64, allow_numbers=True, allow_special_chars=False)
-        with open(DEVICE_SECRET_FILE, "wb") as f:
-            f.write(device_secret.encode())
-        set_read_only(DEVICE_SECRET_FILE)
+    # Generate and store the device secret
+    device_secret = generate_password(length=64, allow_numbers=True, allow_special_chars=False)
+    with open(DEVICE_SECRET_FILE, "wb") as f:
+        f.write(device_secret.encode())
+    set_read_only(DEVICE_SECRET_FILE)
 
-        # copy the master password to clipboard in case they forgot to write it down
-        copy_to_clipboard(master_password)
-        print("Master password saved and copied to clipboard. \n In case you haven't saved this somewhere yet, please paste the contents of your clipboard in a text file and save it in a secure location! \n DO NOT LOSE THIS PASSWORD!")
+    # copy the master password to clipboard in case they forgot to write it down
+    copy_to_clipboard(master_password)
+    print("Master password saved and copied to clipboard. \n In case you haven't saved this somewhere yet, please paste the contents of your clipboard in a text file and save it in a secure location! \n DO NOT LOSE THIS PASSWORD!")
 
     return read_device_secret()
 
