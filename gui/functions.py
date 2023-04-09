@@ -57,12 +57,12 @@ def on_submit(master_password):
 class ConfirmationDialog(simpledialog.Dialog):
     def body(self, master):
         self.message_label = ttk.Label(master, text="I confirm that I have either written down the master password \n or saved it in a secure file on my PC.\n PRESS ENTER TO CONFIRM.")
-        self.message_label.grid(row=0, column=0, padx=10, pady=10)
+        self.message_label.pack(padx=10, pady=10)
         return None
     
     def buttonbox(self):
         self.confirm_button = ttk.Button(self, text="I confirm", command=self.ok)
-        #self.confirm_button.grid(row=1, column=0, padx=10, pady=10)
+        self.confirm_button.pack(padx=10, pady=10)
         self.bind("<Return>", self.ok)
         self.protocol("WM_DELETE_WINDOW", self.ok)
 
