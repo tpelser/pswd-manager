@@ -1,32 +1,24 @@
 import tkinter as tk
 from tkinter import ttk
-from tkinter import messagebox
-from utils.master_key import verify_master_password, setup_master_key, verify_master_password
 import os 
-from gui.functions import setup_master_key, get_salt, check_if_first_submit
+from gui.functions import check_if_first_submit, on_first_time_submit, on_submit
+from gui.add_entry import add_entry
+from database.db import db_config
 
 folder_path = "usr"
 MASTER_PASSWORD_FILE = os.path.join(folder_path, "master_password_hash.txt")
 DEVICE_SECRET_FILE = os.path.join(folder_path,"device_secret.txt")
 
-## function for prompt when starting the program
-def on_submit(master_password_entry, root):
-    master_password = master_password_entry.get()
-    if verify_master_password(master_password):
-        root.deiconify()
-        master_password_entry.delete(0, 'end')
-        master_password_prompt.withdraw()
-    else:
-        messagebox.showerror("Error", "Incorrect master password. Please try again.")
-
-# function for prompt when starting program for the first time
-def on_first_time_submit(master_password_entry, root):
-    master_password = master_password_entry.get()
-    setup_master_key(master_password)
-    master_password_entry.delete(0, 'end')
-    master_password_prompt.withdraw()
-
 def main():
+    verified_master_password = None
+
+    def on_master_password_submit(*args):
+        nonlocal verified_master_password
+        submitted_password = master_password_entry.get()
+        if on_submit_function(submitted_password):
+            verified_master_password = submitted_password
+            master_password_prompt.destroy()
+
     # Create the main window
     root = tk.Tk()
     root.title("Password Manager")
@@ -48,7 +40,7 @@ def main():
     # Create labels and buttons
     ttk.Label(root, text="Welcome to Password Manager", font=("Helvetica", 16, "bold")).pack(pady=20)
     
-    add_entry_button = ttk.Button(root, text="Add an Entry", width=20)
+    add_entry_button = ttk.Button(root, text="Add an Entry", width=20, command=lambda: add_entry(root, verified_master_password))
     add_entry_button.pack(pady=10)
 
     retrieve_password_button = ttk.Button(root, text="Retrieve a Password", width=20)
@@ -76,10 +68,18 @@ def main():
     master_password_entry.pack(pady=10)
     master_password_entry.focus()
 
-    submit_button = ttk.Button(master_password_prompt, text="Submit", command=lambda: on_submit_function(master_password_entry, root))
+
+    submit_button = ttk.Button(master_password_prompt, text="Submit", command=on_master_password_submit)
     submit_button.pack(pady=10)
+    master_password_prompt.bind('<Return>', on_master_password_submit)
 
     master_password_prompt.protocol("WM_DELETE_WINDOW", root.destroy)  # Close the app if the master password prompt is closed
+
+    # Wait for the master password prompt to close
+    root.wait_window(master_password_prompt)
+
+    # show the main window after master_password_prompt is closed
+    root.deiconify()
 
     # Start the main event loop
     root.mainloop()
