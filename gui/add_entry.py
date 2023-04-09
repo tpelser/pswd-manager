@@ -31,7 +31,7 @@ def add_entry(root, verified_master_password):
 
     add_entry_window = tk.Toplevel(root)
     add_entry_window.title("Add an Entry")
-    add_entry_window.geometry("600x400")
+    add_entry_window.geometry("500x300")
     add_entry_window.bind('<Return>', on_add_entry_submit)
 
     ttk.Label(add_entry_window, text="Website URL:").grid(row=0, column=0, padx=10, pady=10, sticky='e')

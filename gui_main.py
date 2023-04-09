@@ -3,7 +3,8 @@ from tkinter import ttk
 import os 
 from gui.functions import check_if_first_submit, on_first_time_submit, on_submit
 from gui.add_entry import add_entry
-from database.db import db_config
+import sv_ttk
+
 
 folder_path = "usr"
 MASTER_PASSWORD_FILE = os.path.join(folder_path, "master_password_hash.txt")
@@ -22,7 +23,7 @@ def main():
     # Create the main window
     root = tk.Tk()
     root.title("Password Manager")
-    root.geometry("800x600")
+    root.geometry("500x300")
     root.withdraw()
 
     # Set the color scheme
