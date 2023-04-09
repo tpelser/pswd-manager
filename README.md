@@ -20,6 +20,8 @@ This Password Manager is a powerful and user-friendly desktop application built 
 * **Fernet encryption**: A symmetric encryption method that ensures your passwords are securely stored and can only be decrypted using your unique master password.
 * **SQLite**: A lightweight, serverless, and self-contained SQL database engine used to store your password data securely.
 
+![Main window](img/master_pass.png 'Master Password Window')
+
 ## Installation
 
 To install the Password Manager, follow these steps:
