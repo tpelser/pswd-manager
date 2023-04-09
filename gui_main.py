@@ -3,8 +3,7 @@ from tkinter import ttk
 import os 
 from gui.functions import check_if_first_submit, on_first_time_submit, on_submit
 from gui.add_entry import add_entry
-import sv_ttk
-
+from gui.retrieve_entry import retrieve_entry
 
 folder_path = "usr"
 MASTER_PASSWORD_FILE = os.path.join(folder_path, "master_password_hash.txt")
@@ -44,7 +43,7 @@ def main():
     add_entry_button = ttk.Button(root, text="Add an Entry", width=20, command=lambda: add_entry(root, verified_master_password))
     add_entry_button.pack(pady=10)
 
-    retrieve_password_button = ttk.Button(root, text="Retrieve a Password", width=20)
+    retrieve_password_button = ttk.Button(root, text="Retrieve a Password", width=20, command=lambda: retrieve_entry(root, verified_master_password))
     retrieve_password_button.pack(pady=10)
 
     quit_button = ttk.Button(root, text="Quit", width=20, command=root.destroy)
