@@ -27,9 +27,9 @@ This Password Manager is a powerful and user-friendly desktop application built 
 To install the Password Manager, follow these steps:
 
 1. For the GUI version:
-In the repository, run the following code:
+In the repository, run the following code
 
-pyinstaller --onefile --noconsole --icon=your_icon.ico gui_main.py
+`pyinstaller --onefile --noconsole --icon=your_icon.ico gui_main.py`
 
 The generated .exe file will be in the dist folder and you can make a shortcut to this on the desktop.
 
