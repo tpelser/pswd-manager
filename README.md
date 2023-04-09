@@ -2,6 +2,8 @@
 
 This Password Manager is a powerful and user-friendly desktop application built using Python, Tkinter, the Fernet symmetric encryption standard, and SQLite database. It securely stores your passwords, making it easier to manage and retrieve them when needed. The intuitive graphical user interface makes using the application a breeze, even for users with no technical background.
 
+![Main window](img/main_window.png 'Main Window')
+
 ## Features
 
 * Securely store your passwords using strong encryption
