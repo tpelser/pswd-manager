@@ -5,3 +5,6 @@
 *.txt
 *.db
 /usr
+/build
+/dist
+*.spec
