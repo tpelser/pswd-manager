@@ -46,7 +46,7 @@ def main():
     retrieve_password_button = ttk.Button(root, text="Retrieve a Password", width=20)
     retrieve_password_button.pack(pady=10)
 
-    quit_button = ttk.Button(root, text="Quit", width=20)
+    quit_button = ttk.Button(root, text="Quit", width=20, command=root.destroy)
     quit_button.pack(pady=10)
 
     # Create a master password prompt window
