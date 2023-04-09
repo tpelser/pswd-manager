@@ -28,7 +28,8 @@ def main():
     # Set the color scheme
     bg_color = "#FFFFFF"  # White
     accent_color1 = "#FFA500"  # Orange
-    accent_color2 = "#000080"  # Dark Blue
+    accent_color2 = "#000080"  # Dark Blu
+    root.configure(bg=bg_color)
 
     # Style the app
     style = ttk.Style()
@@ -36,7 +37,7 @@ def main():
     style.configure("TLabel", foreground=accent_color2)
     style.configure("TButton", foreground=accent_color2)
     style.map("TButton", background=[("pressed", accent_color1), ("active", accent_color2)])
-
+    
     # Create labels and buttons
     ttk.Label(root, text="Welcome to Password Manager", font=("Helvetica", 16, "bold")).pack(pady=20)
     

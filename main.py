@@ -3,10 +3,17 @@ from utils.clipboard import copy_to_clipboard
 from utils.pwd_generator import generate_password, prompt_password_generation_options
 from utils.master_key import setup_master_key, verify_master_password
 from utils.encryption import decrypt_password, encrypt_password
+from gui.functions import check_if_first_submit, get_salt
 
 def main():
     # run initial setup
-    salt = setup_master_key()
+    # check if the first time opening the program
+    if check_if_first_submit():
+        salt = setup_master_key()
+    else:
+        salt = get_salt()
+    
+    # set the verified master password to None until user enters it
     verified_master_password = None
 
     while True:
