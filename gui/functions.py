@@ -1,7 +1,7 @@
 from utils.master_key import verify_master_password
 from utils.hashing import hash_password, verify_password
 import tkinter as tk
-from tkinter import messagebox, simpledialog
+from tkinter import messagebox, simpledialog, ttk
 import platform
 import os 
 import ctypes
@@ -52,6 +52,19 @@ def on_submit(master_password):
     else:
         messagebox.showerror("Error", "Incorrect master password!")
         return False
+    
+# now create a prompt that the user has to confirm their password has been securely stored.
+class ConfirmationDialog(simpledialog.Dialog):
+    def body(self, master):
+        self.message_label = ttk.Label(master, text="I confirm that I have either written down the master password \n or saved it in a secure file on my PC.\n PRESS ENTER TO CONFIRM.")
+        self.message_label.grid(row=0, column=0, padx=10, pady=10)
+        return None
+    
+    def buttonbox(self):
+        self.confirm_button = ttk.Button(self, text="I confirm", command=self.ok)
+        #self.confirm_button.grid(row=1, column=0, padx=10, pady=10)
+        self.bind("<Return>", self.ok)
+        self.protocol("WM_DELETE_WINDOW", self.ok)
 
 # first time opening the program, create a new master password
 def on_first_time_submit(master_password):
@@ -62,6 +75,10 @@ def on_first_time_submit(master_password):
         setup_master_key(master_password)
         copy_to_clipboard(master_password)
         messagebox.showinfo("Success", "Master password created and copied to clipboard. DO NOT LOSE THIS PASSWORD!")
+
+        root = tk.Tk()
+        root.withdraw()
+        ConfirmationDialog(root, title="Confirmation")
+        root.destroy()
         return True
     
-# now create a prompt that the user has to confirm their password has been securely stored.
