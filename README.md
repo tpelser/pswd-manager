@@ -18,6 +18,21 @@ This Password Manager is a powerful and user-friendly desktop application built 
 * **Fernet encryption**: A symmetric encryption method that ensures your passwords are securely stored and can only be decrypted using your unique master password.
 * **SQLite**: A lightweight, serverless, and self-contained SQL database engine used to store your password data securely.
 
+## Installation
+
+To install the Password Manager, follow these steps:
+
+1. For the GUI version:
+In the repository, run the following code:
+
+pyinstaller --onefile --noconsole --icon=your_icon.ico gui_main.py
+
+The generated .exe file will be in the dist folder and you can make a shortcut to this on the desktop.
+
+2. For the CLI version:
+In the repository, run the following code:
+
+
 ## Security 
 
 This Password Manager encrypts your passwords using the Fernet symmetric encryption standard, which ensures that your passwords can only be accessed using your unique master password and a random device secret. 
